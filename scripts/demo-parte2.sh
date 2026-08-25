@@ -2,6 +2,9 @@
 # Demonstra a Questão 4: paralelismo, timeout por fonte, retry e degradação graciosa.
 set -euo pipefail
 BASE="${1:-http://localhost:8000}"
+AQUI="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+"$AQUI/aguarda-api.sh" "$BASE" > /dev/null
 
 resumo() {
   python3 -c '

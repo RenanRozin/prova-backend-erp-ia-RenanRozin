@@ -5,6 +5,8 @@ set -euo pipefail
 BASE="${1:-http://localhost:8000}"
 AQUI="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+"$AQUI/aguarda-api.sh" "$BASE" > /dev/null
+
 pergunta() {
   local texto="$1"
   local confirmar="${2:-false}"

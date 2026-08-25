@@ -4,6 +4,9 @@
 set -euo pipefail
 
 BASE="${1:-http://localhost:8000}"
+AQUI="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+"$AQUI/aguarda-api.sh" "$BASE" > /dev/null
 USUARIO="${SEED_ADMIN_USERNAME:-admin}"
 SENHA="${SEED_ADMIN_PASSWORD:-admin123}"
 
