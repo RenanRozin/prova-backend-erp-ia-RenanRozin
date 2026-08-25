@@ -1,0 +1,21 @@
+# --- Núcleo da API ---
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+
+# --- Persistência ---
+sqlalchemy[asyncio]
+asyncpg
+alembic
+
+# --- Cache e fila ---
+redis
+arq
+
+# --- Segurança ---
+pyjwt
+bcrypt
+
+# --- Cliente HTTP (mocks da Parte 2 e testes) ---
+httpx
