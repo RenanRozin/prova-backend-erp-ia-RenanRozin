@@ -58,7 +58,9 @@ class SimulacaoDeFalha:
         restantes = self.falhas_transitorias.get(fonte, 0)
         if restantes > 0:
             self.falhas_transitorias[fonte] = restantes - 1
-            raise FalhaTransitoria(f"{fonte}: falha transitória (tentativas restantes: {restantes - 1})")
+            raise FalhaTransitoria(
+                f"{fonte}: falha transitória (tentativas restantes: {restantes - 1})"
+            )
 
 
 async def _latencia(fonte: str) -> None:

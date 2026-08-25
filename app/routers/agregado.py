@@ -39,7 +39,9 @@ ORCAMENTO_PADRAO = 1.0
 async def visao_360(
     cliente_id: Annotated[int, Query(ge=1)] = 1,
     produto_id: Annotated[int, Query(ge=1)] = 1,
-    timeout: Annotated[float, Query(gt=0, le=5, description="Timeout por tentativa, em segundos")] = TIMEOUT_PADRAO,
+    timeout: Annotated[  # noqa: ASYNC109 — parametro de query da API, nao prazo interno
+        float, Query(gt=0, le=5, description="Timeout por tentativa, em segundos")
+    ] = TIMEOUT_PADRAO,
     tentativas: Annotated[int, Query(ge=1, le=5)] = TENTATIVAS_PADRAO,
     orcamento: Annotated[
         float, Query(gt=0, le=10, description="Teto de tempo por fonte, retries incluidos")

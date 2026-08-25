@@ -104,9 +104,9 @@ class ProductService:
 
         alteracoes = dados.model_dump(exclude_unset=True)
         novo_nome = alteracoes.get("nome")
-        if novo_nome and novo_nome.lower() != produto.nome.lower():
-            if await self.repo.get_por_nome(novo_nome):
-                raise ProdutoDuplicado(novo_nome)
+        nome_mudou = novo_nome is not None and novo_nome.lower() != produto.nome.lower()
+        if nome_mudou and await self.repo.get_por_nome(novo_nome):
+            raise ProdutoDuplicado(novo_nome)
 
         for campo, valor in alteracoes.items():
             setattr(produto, campo, valor)

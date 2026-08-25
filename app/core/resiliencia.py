@@ -25,11 +25,9 @@ import random
 import time
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass, field
-from typing import Any, Generic, TypeVar
+from typing import Any
 
 logger = logging.getLogger(__name__)
-
-T = TypeVar("T")
 
 
 class FalhaTransitoria(Exception):
@@ -41,7 +39,7 @@ class FalhaPermanente(Exception):
 
 
 @dataclass
-class Resultado(Generic[T]):
+class Resultado[T]:
     """O que aconteceu com uma das chamadas paralelas.
 
     O resultado carrega o erro em vez de levantá-lo: é isso que permite ao
@@ -62,15 +60,18 @@ class Resultado(Generic[T]):
         return self.status == "ok"
 
 
-async def com_resiliencia(
+async def com_resiliencia[T](
     fonte: str,
     operacao: Callable[[], Awaitable[T]],
     *,
-    timeout: float = 1.0,
+    timeout: float = 1.0,  # noqa: ASYNC109 — ver justificativa no corpo
     tentativas: int = 3,
     backoff_base: float = 0.05,
     orcamento_total: float | None = None,
 ) -> Resultado[T]:
+    # ASYNC109 sugere delegar o prazo a quem chama, via asyncio.timeout. Aqui o
+    # timeout e parte do contrato de propósito: a politica de resiliencia por
+    # fonte pertence a esta funcao, nao a cada chamador.
     """Executa `operacao` com timeout por tentativa e retry com backoff.
 
     Nunca levanta exceção: devolve sempre um `Resultado`, com sucesso ou com o

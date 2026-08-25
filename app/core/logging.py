@@ -41,6 +41,14 @@ def setup_logging() -> None:
 
     # uvicorn, arq e sqlalchemy instalam handlers próprios. Sem zerá-los, cada
     # linha sai duas vezes: uma no formato deles, outra em JSON pelo root.
-    for name in ("uvicorn", "uvicorn.access", "uvicorn.error", "arq", "arq.worker", "sqlalchemy.engine"):
+    ruidosos = (
+        "uvicorn",
+        "uvicorn.access",
+        "uvicorn.error",
+        "arq",
+        "arq.worker",
+        "sqlalchemy.engine",
+    )
+    for name in ruidosos:
         logging.getLogger(name).handlers.clear()
         logging.getLogger(name).propagate = True

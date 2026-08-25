@@ -79,7 +79,7 @@ class ProductFilter(BaseModel):
 
     @model_validator(mode="after")
     def _faixa_de_preco_coerente(self) -> "ProductFilter":
-        if self.preco_min is not None and self.preco_max is not None:
-            if self.preco_min > self.preco_max:
-                raise ValueError("preco_min não pode ser maior que preco_max")
+        faixa_completa = self.preco_min is not None and self.preco_max is not None
+        if faixa_completa and self.preco_min > self.preco_max:
+            raise ValueError("preco_min não pode ser maior que preco_max")
         return self

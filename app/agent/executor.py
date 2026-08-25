@@ -106,7 +106,10 @@ class Executor:
             trilha.append(
                 PassoDaTrilha(
                     etapa="guardrail",
-                    detalhe=f"confianca {interpretacao.confianca:.2f} abaixo do limiar {self.limiar}",
+                    detalhe=(
+                        f"confianca {interpretacao.confianca:.2f} "
+                        f"abaixo do limiar {self.limiar}"
+                    ),
                 )
             )
             return ResultadoDaExecucao("nao_compreendido", trilha=trilha)
