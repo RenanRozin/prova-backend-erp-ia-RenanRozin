@@ -19,3 +19,7 @@ bcrypt
 
 # --- Cliente HTTP (mocks da Parte 2 e testes) ---
 httpx
+
+# --- Agente (Parte 5): valida os argumentos contra o mesmo JSON Schema que
+# seria entregue a um LLM em function calling ---
+jsonschema
