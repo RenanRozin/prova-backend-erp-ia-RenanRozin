@@ -1,0 +1,16 @@
+# Override aplicado automaticamente em `docker compose up` na máquina de
+# desenvolvimento: monta o código de fora e liga o reload do uvicorn.
+# Em produção sobe-se com `-f docker-compose.yml` explicitamente, sem este arquivo.
+services:
+  api:
+    volumes:
+      - ./app:/app/app:ro
+      # alembic montado com escrita: e assim que se gera migracao de dentro do container
+      - ./alembic:/app/alembic
+    command:
+      ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  worker:
+    volumes:
+      - ./app:/app/app:ro
+    command: ["arq", "app.workers.worker.WorkerSettings", "--watch", "app"]
