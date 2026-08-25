@@ -16,7 +16,7 @@ from app.core.config import get_settings
 from app.core.db import SessionLocal, engine
 from app.core.logging import setup_logging
 from app.core.redis_client import close_redis, get_redis
-from app.routers import auth, products
+from app.routers import agente, agregado, auth, products
 from app.workers.queue import fechar_pool
 
 logger = logging.getLogger(__name__)
@@ -93,6 +93,8 @@ def create_app() -> FastAPI:
 
     app.include_router(auth.router)
     app.include_router(products.router)
+    app.include_router(agregado.router)
+    app.include_router(agente.router)
 
     return app
 
