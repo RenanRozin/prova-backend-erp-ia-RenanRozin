@@ -15,7 +15,7 @@ funciona sem nenhuma dependência de LLM externo**.
 Pré-requisitos: Docker e Docker Compose. Nada mais — nem Python instalado.
 
 ```bash
-cp -n .env.example .env   # -n não sobrescreve um .env existente
+[ -f .env ] || cp .env.example .env    # não sobrescreve um .env existente
 docker compose up --build
 ```
 
@@ -27,8 +27,8 @@ API aceitar tráfego, então não há passo manual de banco.
 > `.env` mudou depois disso, a senha do arquivo e a do volume divergem. Recrie
 > o volume com `docker compose down -v && docker compose up -d`.
 >
-> Foi por isso que o `cp` acima leva `-n`: sobrescrever um `.env` que já
-> funcionava é a forma mais fácil de cair nesse erro.
+> Foi por isso que o comando acima só copia se o `.env` ainda não existir:
+> sobrescrever um `.env` que já funcionava é a forma mais fácil de cair nesse erro.
 
 Quando os serviços ficarem saudáveis:
 
