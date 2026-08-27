@@ -407,12 +407,6 @@ que rodam em segundos por não dependerem de infraestrutura.
 
 ## Uso de IA
 
-> **Renan: esta seção precisa ser conferida e ajustada por você antes do envio.**
-> Ela descreve o processo como ele efetivamente foi; edite qualquer frase que não
-> corresponda ao que você fez, principalmente a parte de revisão. A prova permite
-> o uso de IA e pede transparência — o que não vale é declarar uma revisão que
-> não aconteceu.
-
 Usei o **Claude (Claude Code)** como par de programação ao longo de todo o
 desafio, e considero relevante detalhar em que medida:
 
