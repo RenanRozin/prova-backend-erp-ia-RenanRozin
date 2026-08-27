@@ -442,8 +442,11 @@ mostra onde a revisão pegou problema real:
 - Um teste de integração pulava em silêncio quando a stack demorava a responder —
   o pior tipo de teste, o que finge estar tudo bem.
 
-**O que escrevi ou reescrevi integralmente:** as respostas das Questões 10 e 11,
-que são sobre a minha experiência e a minha forma de trabalhar.
+**O que é meu e não poderia ser gerado:** as respostas das Questões 10 e 11. A
+Q11 descreve projetos e decisões minhas. A Q10 foi construída a partir das
+minhas respostas sobre como eu de fato reagiria à alocação, como eu aprendi C++
+na prática e qual é a minha preocupação real — o texto foi redigido com apoio de
+IA, mas as posições são minhas e eu as sustento numa conversa.
 
 Minha posição sobre isso, já que a vaga é de back-end com foco em IA: uso IA como
 uso qualquer ferramenta que aumenta a velocidade — e a responsabilidade pelo que
