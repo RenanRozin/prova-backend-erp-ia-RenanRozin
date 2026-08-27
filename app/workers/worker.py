@@ -113,6 +113,10 @@ class WorkerSettings:
 
     # 3 tentativas com backoff do próprio arq. Acima disso o job vai para a lista
     # de falhas em vez de ficar em loop consumindo worker.
+    # O arq grava uma chave de saude no Redis neste intervalo; e ela que o
+    # healthcheck do compose consulta com a flag --check.
+    health_check_interval = 30
+
     max_tries = 3
     job_timeout = 30
     keep_result = 3600

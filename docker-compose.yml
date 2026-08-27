@@ -77,11 +77,15 @@ services:
         condition: service_started
     command: ["arq", "app.workers.worker.WorkerSettings"]
     healthcheck:
-      test: ["CMD-SHELL", "pgrep -f 'arq app.workers' > /dev/null || exit 1"]
-      interval: 20s
-      timeout: 5s
+      # O proprio arq sabe dizer se esta saudavel: consulta a chave de saude
+      # que o worker grava no Redis. pgrep nao servia aqui por dois motivos:
+      # nao existe na imagem slim, e o processo existir nao e a mesma
+      # pergunta que o worker estar vivo.
+      test: ["CMD", "arq", "app.workers.worker.WorkerSettings", "--check"]
+      interval: 30s
+      timeout: 10s
       retries: 3
-      start_period: 15s
+      start_period: 45s
 
 volumes:
   pgdata:
