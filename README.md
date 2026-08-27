@@ -15,12 +15,20 @@ funciona sem nenhuma dependência de LLM externo**.
 Pré-requisitos: Docker e Docker Compose. Nada mais — nem Python instalado.
 
 ```bash
-cp .env.example .env      # ajuste os segredos se quiser
+cp -n .env.example .env   # -n não sobrescreve um .env existente
 docker compose up --build
 ```
 
 É só isso. O `entrypoint` aplica as migrações do Alembic e roda o seed antes de a
 API aceitar tráfego, então não há passo manual de banco.
+
+> **Se aparecer `password authentication failed for user "erp"`:** a senha do
+> Postgres só é gravada na primeira subida, quando o volume é criado. Se o
+> `.env` mudou depois disso, a senha do arquivo e a do volume divergem. Recrie
+> o volume com `docker compose down -v && docker compose up -d`.
+>
+> Foi por isso que o `cp` acima leva `-n`: sobrescrever um `.env` que já
+> funcionava é a forma mais fácil de cair nesse erro.
 
 Quando os serviços ficarem saudáveis:
 
