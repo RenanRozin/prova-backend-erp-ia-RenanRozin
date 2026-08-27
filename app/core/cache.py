@@ -50,18 +50,35 @@ def impressao_do_filtro(payload: dict[str, Any]) -> str:
 
 
 async def versao_produtos(redis: Redis) -> int:
-    """Versão corrente do namespace de listagens. Ausente = 1 (cache frio)."""
-    valor = await redis.get(PRODUTOS_VERSAO_KEY)
+    """Versão corrente do namespace de listagens. Ausente = 1 (cache frio).
+
+    Redis fora do ar devolve a versão 1 e a requisição segue: a chave montada
+    não vai existir, o resultado é um MISS e a listagem vem do Postgres.
+    """
+    try:
+        valor = await redis.get(PRODUTOS_VERSAO_KEY)
+    except Exception:  # noqa: BLE001
+        logger.warning("cache indisponível ao ler a versão do namespace")
+        return 1
     return int(valor) if valor else 1
 
 
 async def invalidar_produto(redis: Redis, produto_id: int | None = None) -> None:
     """Chamada por toda escrita: derruba o registro e vira a versão das listagens."""
-    async with redis.pipeline(transaction=False) as pipe:
-        if produto_id is not None:
-            pipe.delete(PRODUTO_KEY.format(id=produto_id))
-        pipe.incr(PRODUTOS_VERSAO_KEY)
-        await pipe.execute()
+    try:
+        async with redis.pipeline(transaction=False) as pipe:
+            if produto_id is not None:
+                pipe.delete(PRODUTO_KEY.format(id=produto_id))
+            pipe.incr(PRODUTOS_VERSAO_KEY)
+            await pipe.execute()
+    except Exception:  # noqa: BLE001
+        # O dado já foi gravado no Postgres; falhar aqui não pode desfazer a
+        # operação de negócio. O risco assumido é uma entrada antiga voltar a
+        # ser servida quando o Redis retornar — limitado pelo TTL de 60s.
+        logger.warning(
+            "cache indisponível na invalidação",
+            extra={"context": {"produto_id": produto_id}},
+        )
 
 
 async def ler_json(redis: Redis, chave: str) -> Any | None:
